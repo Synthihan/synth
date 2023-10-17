@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #2980b9;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Popup-Stile */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .popup.show {
+            display: block;
+        }
+
+        .popup h3 {
+            margin: 0;
+        }
+
+        .popup p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Login</h2>
+    <form class="login-form" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label for="username">Benutzername:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Anmelden</button>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+    </form>
+</div>
+
+<!-- Popup für erfolgreiche Anmeldung -->
+<div id="success-popup" class="popup">
+    <h3>Erfolgreich angemeldet!</h3>
+    <p>Willkommen zurück!</p>
+</div>
+
+<script>
+    const users = [
+        { username: 'Synthihan', password: 'Jeyasanthan' },
+        { username: 'Yannic', password: 'Frey' },
+        { username: 'Nikolas', password: 'Geier' }
+    ];
+
+    function validateForm() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var errorMessage = document.getElementById('error-message');
+
+        var isValidUser = users.some(function (user) {
+            return user.username === username && user.password === password;
+        });
+
+        if (isValidUser) {
+            // Erfolgreich eingeloggt
+            errorMessage.innerHTML = '';
+            showSuccessPopup();
+            setTimeout(function () {
+                window.location.href = 'index.html'; // Weiterleiten zur Indexseite nach dem Popup
+            }, 3000);
+            return false; // Verhindert das Abschicken des Formulars
+        } else {
+            // Login fehlgeschlagen
+            errorMessage.innerHTML = 'Falscher Benutzername oder Passwort.';
+            return false;
+        }
+    }
+
+    function showSuccessPopup() {
+        var popup = document.getElementById('success-popup');
+        popup.classList.add('show');
+
+        // Schließt das Popup nach 3 Sekunden
+        setTimeout(function() {
+            popup.classList.remove('show');
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
